@@ -1,5 +1,5 @@
 const butão = document.getElementById('botão')
-
+const select = document.getElementById(`select-resultado`)
 const dolar = 5.2
 
 
@@ -12,7 +12,7 @@ const converteValor = () => {
     // valordolartext.innerHTML = inputReal / dolar
     console.log(inputReal / dolar)
 
-    valorReal.innerHTML = new Intl.NumberFormat('en-US',
+    valorReal.innerHTML = new Intl.NumberFormat('pt-br',
         {
             style: 'currency',
             currency: 'BRL'
@@ -27,4 +27,22 @@ const converteValor = () => {
     ).format(inputReal / dolar);
 }
 
-butão.addEventListener('click', converteValor)
+trocar = () => {
+    const paragrafo = document.getElementById("paragrafo")
+    const bandeirapaisconversão = document.getElementById(`bandeira-pais-conversão`)
+
+    console.log(select.value)
+
+    if (select.value === "Dólar Americano") {
+        paragrafo.innerHTML = "Dólar Americano"
+        bandeirapaisconversão.src = "./img/estados-unidos (1) 1.jpg"
+    }
+    if (select.value === "€ Euro") {
+        paragrafo.innerHTML = "Euro"
+        bandeirapaisconversão.src = "./Design sem nome 1.jpg"
+    }
+
+
+}
+butão.addEventListener("click", converteValor)
+select.addEventListener("change", trocar)
