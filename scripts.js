@@ -31,9 +31,9 @@ trocar = () => {
     const paragrafo = document.getElementById("paragrafo")
     const bandeirapaisconversão = document.getElementById(`bandeira-pais-conversão`)
 
-    console.log(select.value)
+    //console.log(select.value)
 
-    if (select.value === "Dólar Americano") {
+    if (select.value === " US$ Dólar americano") {
         paragrafo.innerHTML = "Dólar Americano"
         bandeirapaisconversão.src = "./img/estados-unidos (1) 1.jpg"
     }
