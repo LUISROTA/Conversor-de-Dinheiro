@@ -1,48 +1,63 @@
-const butão = document.getElementById('botão')
-const select = document.getElementById(`select-resultado`)
-const dolar = 5.2
+const button = document.getElementById('convert-button')
+const select = document.getElementById('currency-select')
 
 
-const converteValor = () => {
-    const inputReal = document.getElementById(`input-valor`).value
-    const valorReal = document.getElementById(`valor-real-texto`)
-    const valordolartext = document.getElementById(`valor-dolar-text`)
+async function convertMoney() {
+    const inputReais = document.getElementById('input-real').value
+    const realValueText = document.getElementById('real-value-text')
+    const currencyValueText = document.getElementById('currency-value-text')
 
-    //valorReal.innerHTML = inputReal
-    // valordolartext.innerHTML = inputReal / dolar
-    console.log(inputReal / dolar)
+    const data = await fetch("https://economia.awesomeapi.com.br/last/USD-BRL,EUR-BRL,BTC-BRL").then(response => response.json()) //Utilizando um API
 
-    valorReal.innerHTML = new Intl.NumberFormat('pt-br',
-        {
-            style: 'currency',
-            currency: 'BRL'
-        }
-    ).format(inputReal);
+    const dolar = data.USDBRL.high
+    const euro = data.EURBRL.high
+    const bitcoin = data.BTCBRL.high
 
-    valordolartext.innerHTML = new Intl.NumberFormat('en-US',
-        {
-            style: 'currency',
-            currency: 'USD'
-        }
-    ).format(inputReal / dolar);
-}
+    realValueText.innerHTML = new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' }).format(inputReais);
 
-trocar = () => {
-    const paragrafo = document.getElementById("paragrafo")
-    const bandeirapaisconversão = document.getElementById(`bandeira-pais-conversão`)
-
-    //console.log(select.value)
-
-    if (select.value === " US$ Dólar americano") {
-        paragrafo.innerHTML = "Dólar Americano"
-        bandeirapaisconversão.src = "./img/estados-unidos (1) 1.jpg"
+    if (select.value === '€ Euro') {
+        currencyValueText.innerHTML = new Intl.NumberFormat('de-DE', { style: 'currency', currency: 'EUR' }).format(inputReais / euro);
     }
-    if (select.value === "€ Euro") {
-        paragrafo.innerHTML = "Euro"
-        bandeirapaisconversão.src = "./Design sem nome 1.jpg"
+
+    if (select.value === 'US$ Dólar americano') {
+        currencyValueText.innerHTML = new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' }).format(inputReais / dolar);
+    }
+
+    if (select.value === '₿ Bitcoin') {
+        currencyValueText.innerHTML = new Intl.NumberFormat('de-DE', { style: 'currency', currency: 'BTC' }).format(inputReais / bitcoin);
     }
 
 
+
 }
-butão.addEventListener("click", converteValor)
-select.addEventListener("change", trocar)
+
+
+
+function changeCurrency() {
+    const currencyName = document.getElementById('currency-name')
+    const currencyImg = document.getElementById('currency-img')
+
+    if (select.value === '€ Euro') {
+        currencyName.innerHTML = 'Euro'
+        currencyImg.src = './img/Design sem nome 1.jpg'
+    }
+
+    if (select.value === 'US$ Dólar americano') {
+        currencyName.innerHTML = 'Dólar Americano'
+        currencyImg.src = './img/estados-unidos (1) 1.jpg'
+    }
+
+    if (select.value === '₿ Bitcoin') {
+        currencyName.innerHTML = 'Bitcoin'
+        currencyImg.src = './img/Design sem nome (1) 1.png'
+    }
+
+
+    convertMoney()
+
+}
+
+
+
+button.addEventListener('click', convertMoney)
+select.addEventListener('change', changeCurrency)
